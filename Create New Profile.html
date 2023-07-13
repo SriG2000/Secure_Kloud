@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Create New Profile</title>
-  </head>
-  <body>
-    <h1>Create New Profile</h1>
-    <form action="/create_profile" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required><br><br>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required><br><br>
-      <input type="submit" value="Submit">
+<head>
+    <title>Create Profile</title>
+</head>
+<body>
+    <h1>Create Profile</h1>
+    <form method="POST" action="/create_profile">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br><br>
+        <input type="submit" value="Create Profile">
     </form>
-  </body>
+</body>
 </html>

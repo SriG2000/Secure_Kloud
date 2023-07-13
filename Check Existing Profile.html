@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Check Existing Profile</title>
-  </head>
-  <body>
-    <h1>Check Existing Profile</h1>
-    <form action="/check_profile" method="POST">
-      <label for="id">ID:</label>
-      <input type="text" id="id" name="id" required><br><br>
-      <input type="submit" value="Submit">
+<head>
+    <title>Check Profile</title>
+</head>
+<body>
+    <h1>Check Profile</h1>
+    <form method="POST" action="/check_profile">
+        <label for="id">Customer ID:</label>
+        <input type="text" name="id" required><br><br>
+        <input type="submit" value="Check Profile">
     </form>
-  </body>
+</body>
 </html>
-
