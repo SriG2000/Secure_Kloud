@@ -31,7 +31,7 @@ def create_profile():
 
         return jsonify({'id': customer_id, 'name': name, 'email': email})
     else:
-        return render_template('CreateProfile.html')
+        return render_template('create_profile.html')
 
 @app.route('/check_profile', methods=['GET', 'POST'])
 def check_profile():
@@ -57,9 +57,9 @@ def check_profile():
         else:
             profile = {}
 
-        return render_template('CheckProfile.html', profile=profile)
+        return render_template('check_profile.html', profile=profile)
     else:
-        return render_template('CheckProfile.html')
+        return render_template('check_profile.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
