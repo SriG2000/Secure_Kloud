@@ -16,6 +16,4 @@ for pid in $pids; do
     sudo kill $pid
 done
 
-chmod +x cmd.sh
-
-./cmd.sh
+chmod +x cmd.sh && ./cmd.sh
