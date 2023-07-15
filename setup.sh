@@ -18,4 +18,4 @@ done
 
 chmod +x cmd.sh
 
-./req.sh
+./cmd.sh
