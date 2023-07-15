@@ -7,9 +7,7 @@ source venv/bin/activate
 
 sudo apt install python3 python3-pip
 
-pip install Flask 
-# Install Gunicorn
-pip install gunicorn
+pip install Flask gunicorn pymysql
 
 # Export the Flask environment variables
 export FLASK_APP=app.py
