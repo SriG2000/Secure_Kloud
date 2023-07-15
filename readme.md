@@ -1,29 +1,8 @@
-import pymysql
-from flask import Flask, render_template, request, jsonify
+Server 1
 
-app = Flask(__name__)
-connection = pymysql.connect(host='sqlrds.ckrzivzfkk23.us-east-2.rds.amazonaws')
+ssh -i C:\Users\sriva\Downloads\SKF_1.pem ubuntu@ec2-3-135-249-213.us-east-2.compute.amazonaws.com
 
-@app.route('/create_profile', methods=['GET', 'POST'])
-def create_profile():
-    if request.method == 'POST':
-        data = request.form
-        name = data['name']
-        email = data['email']
+Server 2
 
-        with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", (name, email))
-            customer_id = cursor.lastrowid
-
-        connection.commit()
-
-        return jsonify({'id': customer_id, 'name': name, 'email': email})
-    else:
-        return render_template('create_profile.html')
-
-@app.route('/check_profile', methods=['GET', 'POST'])
-def check_profile():
-    if request.method == 'POST':
-        data = request.form
-        customer_id = data['id']
+ssh -i C:\Users\sriva\Downloads\SK_2.pem ubuntu@ec2-18-118-217-66.us-east-2.compute.amazonaws.com
 
