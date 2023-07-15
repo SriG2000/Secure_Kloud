@@ -25,6 +25,9 @@ def create_profile():
             customer_id = cursor.lastrowid
 
         connection.commit()
+        
+        # Close the database connection
+        connection.close()
 
         return jsonify({'id': customer_id, 'name': name, 'email': email})
     else:
@@ -39,6 +42,9 @@ def check_profile():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM users WHERE id = %s", (customer_id,))
             result = cursor.fetchone()
+
+        # Close the database connection
+        connection.close()
 
         if result:
             # Fetch the profile information from the database
