@@ -53,14 +53,14 @@ def check_profile():
             else:
                 profile = {}
 
-            return render_template('CheckProfile.html', profile=profile)
+            return render_template('check_profile.html', profile=profile)
         except pymysql.Error as e:
             print(f"Error accessing the database: {str(e)}")
             return jsonify({'error': 'An error occurred while accessing the database.'}), 500
         finally:
             connection.close()
     else:
-        return render_template('CheckProfile.html')
+        return render_template('check_profile.html')
 
 
 if __name__ == '__main__':
