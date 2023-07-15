@@ -39,27 +39,29 @@ def check_profile():
         data = request.form
         customer_id = data['id']
 
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM users WHERE id = %s", (customer_id,))
-            result = cursor.fetchone()
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM users WHERE id = %s", (customer_id,))
+                result = cursor.fetchone()
 
-        # Close the database connection
-        connection.close()
+            if result:
+                profile = {
+                    'id': result[0],
+                    'name': result[1],
+                    'email': result[2]
+                }
+            else:
+                profile = {}
 
-        if result:
-            # Fetch the profile information from the database
-            # You can access the data using result[0], result[1], etc.
-            profile = {
-                'id': result[0],
-                'name': result[1],
-                'email': result[2]
-            }
-        else:
-            profile = {}
-
-        return render_template('check_profile.html', profile=profile)
+            return render_template('CheckProfile.html', profile=profile)
+        except pymysql.Error as e:
+            print(f"Error accessing the database: {str(e)}")
+            return jsonify({'error': 'An error occurred while accessing the database.'}), 500
+        finally:
+            connection.close()
     else:
-        return render_template('check_profile.html')
+        return render_template('CheckProfile.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
