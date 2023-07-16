@@ -8,9 +8,9 @@ sudo apt install python3 python3-pip
 pip install Flask gunicorn pymysql
 
 # MySQL database credentials
-DB_HOST="localhost"
-DB_USER="your_username"
-DB_PASSWORD="your_password"
+DB_HOST="skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com"
+DB_USER="srivatsav"
+DB_PASSWORD="srivatsav"
 DB_NAME="skdb"
 
 # SQL code to create the emp table
