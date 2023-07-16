@@ -2,11 +2,12 @@ import pymysql
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
+
 connection = pymysql.connect(
-    host='sqlrds.ckrzivzfkk23.us-east-2.rds.amazonaws.com',
+    host='skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com',
     user='srivatsav',
     password='srivatsav',
-    database='SKP1'
+    database='skdb'
 )
 
 @app.route('/')
@@ -17,19 +18,19 @@ def welcome_page():
 def create_profile():
     if request.method == 'POST':
         data = request.form
+        eid = data['eid']
         name = data['name']
         email = data['email']
 
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", (name, email))
+            cursor.execute("INSERT INTO users (eid,name, email) VALUES (%s,%s, %s)", (eid,name, email))
             customer_id = cursor.lastrowid
-
         connection.commit()
         
         # Close the database connection
         connection.close()
+        return jsonify({'id': eid, 'name': name, 'email': email})
 
-        return jsonify({'id': customer_id, 'name': name, 'email': email})
     else:
         return render_template('create_profile.html')
 
@@ -37,11 +38,11 @@ def create_profile():
 def check_profile():
     if request.method == 'POST':
         data = request.form
-        customer_id = data['id']
+        eid = data['eid']
 
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM users WHERE id = %s", (customer_id,))
+                cursor.execute("SELECT * FROM users WHERE id = %s", (eid,))
                 result = cursor.fetchone()
 
             if result:
@@ -54,6 +55,7 @@ def check_profile():
                 profile = {}
 
             return render_template('check_profile.html', profile=profile)
+        
         except pymysql.Error as e:
             print(f"Error accessing the database: {str(e)}")
             return jsonify({'error': 'An error occurred while accessing the database.'}), 500
