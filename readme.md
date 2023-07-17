@@ -6,6 +6,9 @@ Server 2
 
 ssh -i C:\Users\sriva\Downloads\SK_2.pem ubuntu@ec2-18-118-217-66.us-east-2.compute.amazonaws.com
 
+mysql -h albemp.csdmbmuvmujj.us-east-2.rds.amazonaws.com  -u srivatsav -p
+
+
 code:
 import pymysql
 from flask import Flask, render_template, request, jsonify

@@ -6,6 +6,7 @@ python3 -m venv venv
 source venv/bin/activate
 sudo apt install python3 python3-pip
 pip install Flask gunicorn pymysql
+sudo apt install mysql-client-core-8.0   
 
 # MySQL database credentials
 DB_HOST="skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com"
