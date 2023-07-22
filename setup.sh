@@ -6,7 +6,7 @@ sudo systemctl enable docker
 sudo apt-get update
 sudo apt-get install -y python3-venv git
 
-cd Secure_Kloud
+
 pids=$(sudo fuser -n tcp 5000 2>/dev/null)
 for pid in $pids; do
     sudo kill $pid
