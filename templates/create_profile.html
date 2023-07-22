@@ -1,4 +1,3 @@
-<!-- CreateProfile.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +10,7 @@
             font-size: 40px;
         }
         body {
-            padding: 20%;
+            padding: 2%; /* Adjust the padding as needed */
             text-align: center;
             background-color: #F5EBE0;
         }
@@ -29,20 +28,16 @@
     <h1>Create New Profile</h1>
     <br>
     <form method="POST" action="/create_profile">
-        <label>Employee ID:</label>
-        <input type="text" name="eid">
+        <label for="eid">Employee ID:</label>
+        <input type="text" name="eid" id="eid">
         <br>
         <br>
-        <label>Name:</label>
-        <input type="text" name="name">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
         <br>
         <br>
-        <label>Email:</label>
-        <input type="text" name="email">
-        <br>
-        <br>
-        <br>
-        <br>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email">
         <br>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>

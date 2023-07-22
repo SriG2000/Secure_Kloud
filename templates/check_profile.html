@@ -10,7 +10,7 @@
             font-size: 40px;
         }
         body {
-            padding: 20%;
+            padding: 2%; /* Adjust the padding as needed */
             text-align: center;
             background-color: #F5EBE0;
         }
@@ -19,14 +19,17 @@
             border: none;
             font-size: 20px;
         }
+        label {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Check Profile</h1>
 
     <form action="/check_profile" method="POST">
-        <label for="id">Enter ID:</label>
-        <input type="text" name="eid">
+        <label for="eid">Enter ID:</label>
+        <input type="text" name="eid" id="eid">
         <br><br>
         <button type="submit" class="btn btn-primary">Check Profile</button>
     </form>

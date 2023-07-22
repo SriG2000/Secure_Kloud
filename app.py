@@ -1,5 +1,5 @@
 import pymysql
-from flask import Flask, render_template, request, jsonify, g
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -40,7 +40,7 @@ def create_profile():
         return jsonify({'id': eid, 'name': name, 'email': email})
 
     else:
-        return render_template('create_profile.html')
+        return render_template('CreateProfile.html')
 
 @app.route('/check_profile', methods=['GET', 'POST'])
 def check_profile():
@@ -63,14 +63,14 @@ def check_profile():
             else:
                 profile = {}
 
-            return render_template('check_profile.html', profile=profile)
+            return render_template('CheckProfile.html', profile=profile)
 
         except pymysql.Error as e:
             print(f"Error accessing the database: {str(e)}")
             return jsonify({'error': 'An error occurred while accessing the database.'}), 500
 
     else:
-        return render_template('check_profile.html')
+        return render_template('CheckProfile.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
