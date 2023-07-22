@@ -1,6 +1,6 @@
 Server 1
 
-ssh -i C:\Users\sriva\Downloads\SKF_1.pem ubuntu@ec2-3-15-5-42.us-east-2.compute.amazonaws.com
+ssh -i C:\Users\sriva\Downloads\SSH.pem ubuntu@ec2-18-221-205-174.us-east-2.compute.amazonaws.com
 
 Server 2
 
