@@ -1,5 +1,5 @@
 #!/bin/bash
--rf Secure_Kloud
+rm -rf Secure_Kloud
 sudo apt-get update
 sudo apt-get install python3-venv
 sudo apt-get update
