@@ -1,14 +1,23 @@
 import pymysql
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, g
 
 app = Flask(__name__)
 
-connection = pymysql.connect(
-    host='skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com',
-    user='srivatsav',
-    password='srivatsav',
-    database='skdb'
-)
+def get_db():
+    if 'db' not in g:
+        g.db = pymysql.connect(
+            host='skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com',
+            user='admin',
+            password='srivatsav',
+            database='skdb'
+        )
+    return g.db
+
+@app.teardown_appcontext
+def close_db(error):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
 
 @app.route('/')
 def welcome_page():
@@ -22,13 +31,12 @@ def create_profile():
         name = data['name']
         email = data['email']
 
-        with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO users (eid,name, email) VALUES (%s,%s, %s)", (eid,name, email))
+        db = get_db()
+        with db.cursor() as cursor:
+            cursor.execute("INSERT INTO users (eid, name, email) VALUES (%s, %s, %s)", (eid, name, email))
             customer_id = cursor.lastrowid
-        connection.commit()
-        
-        # Close the database connection
-        connection.close()
+        db.commit()
+
         return jsonify({'id': eid, 'name': name, 'email': email})
 
     else:
@@ -41,7 +49,8 @@ def check_profile():
         eid = data['eid']
 
         try:
-            with connection.cursor() as cursor:
+            db = get_db()
+            with db.cursor() as cursor:
                 cursor.execute("SELECT * FROM users WHERE id = %s", (eid,))
                 result = cursor.fetchone()
 
@@ -55,15 +64,13 @@ def check_profile():
                 profile = {}
 
             return render_template('check_profile.html', profile=profile)
-        
+
         except pymysql.Error as e:
             print(f"Error accessing the database: {str(e)}")
             return jsonify({'error': 'An error occurred while accessing the database.'}), 500
-        finally:
-            connection.close()
+
     else:
         return render_template('check_profile.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
