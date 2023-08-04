@@ -6,10 +6,10 @@ app = Flask(__name__)
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
-            host='skdb.csdmbmuvmujj.us-east-2.rds.amazonaws.com',
-            user='admin',
-            password='srivatsav',
-            database='skdb'
+            host='',
+            user='',
+            password='',
+            database=''
         )
     return g.db
 
