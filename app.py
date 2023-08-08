@@ -1,76 +1,67 @@
-import pymysql
-from flask import Flask, render_template, request, jsonify
+import mysql.connector
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-def get_db():
-    if 'db' not in g:
-        g.db = pymysql.connect(
-            host='',
-            user='',
-            password='',
-            database=''
-        )
-    return g.db
+# Replace the following variables with your MySQL database credentials
+hostname = 'db.csdmbmuvmujj.us-east-2.rds.amazonaws.com'
+username = 'admin'
+password = 'srivatsav'
+database = 'SKDB'
 
-@app.teardown_appcontext
-def close_db(error):
-    db = g.pop('db', None)
-    if db is not None:
-        db.close()
+def create_connection():
+    return mysql.connector.connect(
+        host=hostname,
+        user=username,
+        password=password,
+        database=database
+    )
 
 @app.route('/')
-def welcome_page():
-    return render_template('WelcomePage.html')
+def welcome():
+    return render_template('welcome.html')
 
-@app.route('/create_profile', methods=['GET', 'POST'])
-def create_profile():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
-        data = request.form
-        eid = data['eid']
-        name = data['name']
-        email = data['email']
+        email = request.form['email']
+        password = request.form['password']
 
-        db = get_db()
-        with db.cursor() as cursor:
-            cursor.execute("INSERT INTO users (eid, name, email) VALUES (%s, %s, %s)", (eid, name, email))
-            customer_id = cursor.lastrowid
-        db.commit()
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+        user_data = cursor.fetchone()
+        conn.close()
 
-        return jsonify({'id': eid, 'name': name, 'email': email})
+        if user_data and user_data[4] == password:
+            return redirect(url_for('dashboard', name=user_data[1]))  # Redirect to dashboard with the user's name
+        else:
+            return "Invalid email or password"
+    return render_template('login.html')
 
-    else:
-        return render_template('CreateProfile.html')
-
-@app.route('/check_profile', methods=['GET', 'POST'])
-def check_profile():
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
     if request.method == 'POST':
-        data = request.form
-        eid = data['eid']
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
 
+        conn = create_connection()
+        cursor = conn.cursor()
         try:
-            db = get_db()
-            with db.cursor() as cursor:
-                cursor.execute("SELECT * FROM users WHERE id = %s", (eid,))
-                result = cursor.fetchone()
+            cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login'))  # Redirect to login page after successful signup
+        except mysql.connector.IntegrityError:
+            conn.close()
+            return "Error: Email already exists. Please choose another."
 
-            if result:
-                profile = {
-                    'id': result[0],
-                    'name': result[1],
-                    'email': result[2]
-                }
-            else:
-                profile = {}
+    return render_template('signup.html')
 
-            return render_template('CheckProfile.html', profile=profile)
-
-        except pymysql.Error as e:
-            print(f"Error accessing the database: {str(e)}")
-            return jsonify({'error': 'An error occurred while accessing the database.'}), 500
-
-    else:
-        return render_template('CheckProfile.html')
+@app.route('/dashboard/<name>')
+def dashboard(name):
+    return render_template('dashboard.html', name=name)
 
 if __name__ == '__main__':
     app.run(debug=True)
