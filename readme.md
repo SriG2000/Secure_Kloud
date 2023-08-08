@@ -10,5 +10,5 @@ git clone git@github.com:SriG2000/run.git
 cd run
 chmod +x run.sh && ./run.sh
 
-git clone git@github.com:SriG2000/run.git && cd run && chmod +x run.sh && ./run.sh
+cd && rm -rf run && git clone git@github.com:SriG2000/run.git && cd run && chmod +x run.sh && ./run.sh
 
