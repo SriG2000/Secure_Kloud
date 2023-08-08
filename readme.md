@@ -6,8 +6,9 @@ Server 2
 
 ssh -i C:\Users\sriva\Downloads\EC.pem ubuntu@ec2-3-21-98-152.us-east-2.compute.amazonaws.com
 
-rm -rf Secure_Kloud
-
-git clone git@github.com:SriG2000/Secure_Kloud.git
-
+git clone git@github.com:SriG2000/run.git
+cd run
 chmod +x run.sh && ./run.sh
+
+git clone git@github.com:SriG2000/run.git && cd run && chmod +x run.sh && ./run.sh
+
